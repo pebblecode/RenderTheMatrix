@@ -49,15 +49,20 @@ namespace RenderTheMatrixTests
         {
             this._commits = GitCommits.Instance();
             var commits = new List<int[]>();
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 100; i++)
             {
                commits.Add(_commits.GetNextCommit());
             }
 
-            var template = commits.First();
-            foreach (var commit in commits.Skip(1))
+            for (int i = 0; i < 50; i++)
             {
-                Assert.NotEqual(template, commit);
+                var source = commits[i];
+                
+                var targets = commits.Skip(i + 1);
+                foreach (var target in targets)
+                {
+                    Assert.NotEqual(source, target, new GitCommits.IntValueComparer());
+                }
             }
         }
 

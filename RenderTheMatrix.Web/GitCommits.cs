@@ -23,6 +23,8 @@ namespace RenderTheMatrix.Web
 
         private IEnumerator<Commit> _commits;
 
+        private HashSet<int[]> _distinctCommits = new HashSet<int[]>(new IntValueComparer());
+
         private GitCommits()
         {
             this._gitRepository = new Repository(RepositoryPath);
@@ -56,6 +58,9 @@ namespace RenderTheMatrix.Web
             {
                 _commits = _gitRepository.Commits.GetEnumerator();
             }
+
+            if (_distinctCommits.Contains(commitData))
+                return GetNextCommit();
             return commitData;
         }
 
@@ -72,6 +77,25 @@ namespace RenderTheMatrix.Web
                 _gitRepository.Dispose();
 
             _disposed = true;
+        }
+
+        public class IntValueComparer : EqualityComparer<int[]> 
+        {
+            public override bool Equals(int[] x, int[] y)
+            {
+                if (x.Length != y.Length)
+                    return false;
+
+                return x.Select((ele, idx) => y[idx] == ele).All(_ => _);
+            }
+
+            public override int GetHashCode(int[] obj)
+            {
+                if (obj == null)
+                    return 0;
+
+                return obj.Aggregate(0, (acc, ele) => acc + ele);
+            }
         }
     }
 }
