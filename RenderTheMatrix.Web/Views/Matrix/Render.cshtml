@@ -1,0 +1,28 @@
+﻿@model dynamic
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello</title>
+        <script type="text/javascript" src="~/Scripts/raphael.js"></script>
+        <script type="text/javascript" src="~/Scripts/cufon.js"></script>
+        <script type="text/javascript" src="~/Scripts/matrix.font.js"></script>
+    </head>
+    <body>
+        <div id="paper1"></div>
+    </body>
+	
+    <script type="text/javascript">
+        var paper = Raphael("paper1", 500, 5000);
+        var font1 = paper.getFont("matrixfont");
+        var characters = "!#\"$%&'()*+,-./235:9;<=>?[\]^abcdegfhijklmnopqrstuvwxyz{|}~";
+        
+        var transformedPath = Raphael.transformPath('M10 10L190 190');
+        paper.print(100, 100, "Tim Bombadil", font1, 48)
+            .animate({ path: transformedPath }, 1000);
+    </script>
+</html>
