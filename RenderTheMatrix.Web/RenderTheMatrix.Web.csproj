@@ -115,7 +115,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\GitCommits.cs" />
+    <Compile Include="GitCommits.cs" />
     <Compile Include="Controllers\MatrixController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

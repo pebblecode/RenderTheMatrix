@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LibGit2Sharp;
 
-namespace RenderTheMatrix.Web.Controllers
+namespace RenderTheMatrix.Web
 {
     public class GitCommits
     {
