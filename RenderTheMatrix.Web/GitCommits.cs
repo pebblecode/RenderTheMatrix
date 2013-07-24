@@ -21,7 +21,7 @@ namespace RenderTheMatrix.Web
             new Lazy<GitCommits>(() => new GitCommits(), 
                 LazyThreadSafetyMode.PublicationOnly);
 
-        private IEnumerator<Commit> _commits;
+        private readonly IEnumerator<Commit> _commits;
 
         private GitCommits()
         {
