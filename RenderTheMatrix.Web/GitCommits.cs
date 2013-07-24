@@ -39,27 +39,16 @@ namespace RenderTheMatrix.Web
         {
             var author = _commits.Current.Author.GetHashCode();
             var currentTree = _commits.Current.Tree;
-            IEnumerable<char> patch = new char[]{};
-            while (!patch.Any())
-            {
-                if (!_commits.MoveNext())
-                    _commits = _gitRepository.Commits.GetEnumerator();
-                var next = _commits.Current;
-                var nextTree = next.Tree;
-                var diff = _gitRepository.Diff.Compare(currentTree, nextTree);
-                patch = diff.Patch;
-            }
-            patch = patch.Reverse();
-
             var offset = 0;
             
             var data = Enumerable
                 .Range(0, BufferSize -1)
                 .Select(_ =>
                             {
-                                if (patch.ElementAtOrDefault(_ - offset) == default(char))
+                                if (currentTree.ElementAtOrDefault(_ - offset) == null)
                                     offset = _;
-                                 return (int)(patch.ElementAt(_ - offset));
+                                var ele = currentTree.ElementAt(_ - offset);
+                                return ele.Target.Sha.GetHashCode();
                             });
 
             var commitData = (new[] {author}).Concat(data).ToArray();
