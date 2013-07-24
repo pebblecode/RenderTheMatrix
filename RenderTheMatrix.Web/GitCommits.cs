@@ -21,7 +21,7 @@ namespace RenderTheMatrix.Web
             new Lazy<GitCommits>(() => new GitCommits(), 
                 LazyThreadSafetyMode.PublicationOnly);
 
-        private readonly IEnumerator<Commit> _commits;
+        private IEnumerator<Commit> _commits;
 
         private GitCommits()
         {
@@ -48,11 +48,14 @@ namespace RenderTheMatrix.Web
                                 if (currentTree.ElementAtOrDefault(_ - offset) == null)
                                     offset = _;
                                 var ele = currentTree.ElementAt(_ - offset);
-                                return ele.Target.Sha.GetHashCode();
+                                return ele.Target.GetHashCode();
                             });
 
             var commitData = (new[] {author}).Concat(data).ToArray();
-
+            if (!_commits.MoveNext())
+            {
+                _commits = _gitRepository.Commits.GetEnumerator();
+            }
             return commitData;
         }
 

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using RenderTheMatrix.Web;
 using Xunit;
 
@@ -39,6 +41,23 @@ namespace RenderTheMatrixTests
             {
                 var commit = _commits.GetNextCommit();
                 Assert.NotNull(commit);
+            }
+        }
+
+        [Fact]
+        public void DataNotSame()
+        {
+            this._commits = GitCommits.Instance();
+            var commits = new List<int[]>();
+            for (int i = 0; i < 20; i++)
+            {
+               commits.Add(_commits.GetNextCommit());
+            }
+
+            var template = commits.First();
+            foreach (var commit in commits.Skip(1))
+            {
+                Assert.NotEqual(template, commit);
             }
         }
 
