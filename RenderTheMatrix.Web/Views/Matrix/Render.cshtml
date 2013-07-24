@@ -28,17 +28,41 @@
         var font1 = paper.getFont("matrixfont");
         var characters = "!#\"$%&'()*+,-./235:9;<=>?[\]^abcdegfhijklmnopqrstuvwxyz{|}~";
 
-        var arr = [];
-        for (var i = 0, l = 100; i < l; i++) {
-            arr.push(characters[Math.round(Math.random() * l) % characters.length]);
-        }
+        var columns = Math.round(width / 12);
 
-        var text = paper.print(0, 0, arr.join("\n"), font1, 24).attr("fill", "limegreen");
-        var textBounds = text.getBBox();
-        text.attr({ transform: ['t', 0, 0 - textBounds.height] });
-        
-        text.animate({ transform: ['t', 0, height] }, 5000, function () {
-            this.remove();
+        $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                url: "@Url.Action("GetColumns", new { columnCount = 100 })",
+                success: function (r) {
+                    console.log("got data for columns");
+                    
+
+                    for (var col = 0; col < 20; col++) {
+                        var tmp = function () {
+                            var column = col;
+
+                            console.log("animate0 col: " + column);
+                            var data = r.columns[column].map(function (d) { return characters[d % characters.length]; });
+                            var text = paper.print(column * 10, 0, data.join("\n"), font1, 24).attr("fill", "limegreen");
+                            var textBounds = text.getBBox();
+
+                            // set initial position
+                            text.attr({ transform: ['t', column * 10, 0 - textBounds.height] });
+                            console.log("animate1 col: " + column);
+
+                            // start animation
+                            text.animate({ transform: ['t', column * 10, height] }, 20000, function () {
+                                this.remove();
+                                console.log("finished col: " + column);
+                            });
+
+                            console.log("animate2 col: " + column);
+                        }();
+                    }
+
+                }
+            });
         });
 
     </script>
