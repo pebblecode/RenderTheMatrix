@@ -20,6 +20,7 @@ namespace RenderTheMatrix.Web.Controllers
         }
 
         [HttpGet]
+        [OutputCache(Duration = 3600, VaryByParam = "columnCount")]
         public JsonResult GetColumns(int columnCount)
         {
             var columnData =
