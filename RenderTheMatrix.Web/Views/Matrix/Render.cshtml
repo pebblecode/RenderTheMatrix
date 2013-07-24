@@ -8,6 +8,7 @@
 <html>
     <head>
         <title>Hello</title>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <script type="text/javascript" src="~/Scripts/raphael.js"></script>
         <script type="text/javascript" src="~/Scripts/cufon.js"></script>
         <script type="text/javascript" src="~/Scripts/matrix.font.js"></script>
@@ -17,12 +18,28 @@
     </body>
     
     <script type="text/javascript">
-        var paper = Raphael("paper1", 500, 5000);
+
+        var width = $(document).width() - 100;
+        var height = $(document).height() - 100;
+
+        var paper = Raphael("paper1", width, height);
+        paper.canvas.style.backgroundColor = "black";
+        
         var font1 = paper.getFont("matrixfont");
         var characters = "!#\"$%&'()*+,-./235:9;<=>?[\]^abcdegfhijklmnopqrstuvwxyz{|}~";
+
+        var arr = [];
+        for (var i = 0, l = 100; i < l; i++) {
+            arr.push(characters[Math.round(Math.random() * l) % characters.length]);
+        }
+
+        var text = paper.print(0, 0, arr.join("\n"), font1, 24).attr("fill", "limegreen");
+        var textBounds = text.getBBox();
+        text.attr({ transform: ['t', 0, 0 - textBounds.height] });
         
-        var transformedPath = Raphael.transformPath('M10 10L190 190');
-        paper.print(100, 100, "Tim Bombadil", font1, 48)
-            .animate({ path: transformedPath }, 1000);
+        text.animate({ transform: ['t', 0, height] }, 5000, function () {
+            this.remove();
+        });
+
     </script>
 </html>

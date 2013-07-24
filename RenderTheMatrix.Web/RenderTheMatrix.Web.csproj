@@ -126,6 +126,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\cufon.js" />
     <Content Include="Scripts\matrix.font.js" />
     <Content Include="Scripts\raphael-min.js" />
     <Content Include="Scripts\raphael.js" />
@@ -183,7 +184,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>35329</DevelopmentServerPort>
+          <DevelopmentServerPort>53954</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:50658/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
