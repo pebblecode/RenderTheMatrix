@@ -20,5 +20,11 @@ namespace RenderTheMatrix.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
         }
+
+        protected void Application_End()
+        {
+            var commits = GitCommits.Instance();
+            commits.Dispose();
+        }
     }
 }

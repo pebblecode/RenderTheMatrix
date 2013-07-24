@@ -7,11 +7,11 @@ namespace RenderTheMatrix.Web.Controllers
 {
     public class MatrixController : Controller
     {
-        private GitCommits _gitCommits;
+        private readonly GitCommits _gitCommits;
 
         public MatrixController()
         {
-            this._gitCommits = new GitCommits();
+            this._gitCommits = GitCommits.Instance();
         }
 
         public ActionResult Render()
