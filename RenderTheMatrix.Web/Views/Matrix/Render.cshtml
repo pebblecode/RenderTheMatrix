@@ -33,19 +33,19 @@
         $(document).ready(function () {
             $.ajax({
                 type: "GET",
-                url: "@Url.Action("GetColumns", new { columnCount = 50 })",
+                url: "@Url.Action("GetColumns", new { columnCount = 200 })",
                 success: function (r) {
                     console.log("got data for columns");
                     
 
                     for (var col = 0; col < columns; col++) {
-                        if (Math.floor((Math.random() * 10) + 1) > 3)
+                        if (Math.floor((Math.random() * 10) + 1) > 2)
                             continue;
 
                         var tmp = function () {
                             var column = col;
 
-                            var data = r.columns[column].map(function (d) { return characters[d % characters.length]; });
+                            var data = r.columns[column].map(function (d) { return characters[d % characters.length]; }).filter(function (d) { return d; });
                             var text = paper.print(column * 10, 0, data.join("\n"), font1, 24).attr("fill", "limegreen");
                             var textBounds = text.getBBox();
 
@@ -56,7 +56,7 @@
                             text.animate({ transform: ['t', column * 10, height] }, 20000, function () {
                                 this.remove();
                                 console.log("finished col: " + column);
-                            }).anim(Math.floor((Math.random() * 1000) + 1));
+                            });//.anim(Math.floor((Math.random() * 1000) + 1));
 
                             console.log("animate col: " + column);
                         }();
